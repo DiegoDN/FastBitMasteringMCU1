@@ -276,6 +276,21 @@ typedef struct
 
 
 /* ################################################################################################   
+ *                                                               RESET MACROS FOR GPIOX PERIPHERALS
+ * ################################################################################################
+ */
+
+#define GPIOA_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 0)); ((RCC->AHB1_RSTR) &= ~(1 << 0));} while(0)  /* DS 136 */
+#define GPIOB_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 1)); ((RCC->AHB1_RSTR) &= ~(1 << 1));} while(0)  /* DS 136 */
+#define GPIOC_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 2)); ((RCC->AHB1_RSTR) &= ~(1 << 2));} while(0)  /* DS 136 */
+#define GPIOD_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 3)); ((RCC->AHB1_RSTR) &= ~(1 << 3));} while(0)  /* DS 136 */
+#define GPIOE_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 4)); ((RCC->AHB1_RSTR) &= ~(1 << 4));} while(0)  /* DS 136 */
+#define GPIOF_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 5)); ((RCC->AHB1_RSTR) &= ~(1 << 5));} while(0)  /* DS 136 */
+#define GPIOG_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 6)); ((RCC->AHB1_RSTR) &= ~(1 << 6));} while(0)  /* DS 136 */
+#define GPIOH_REG_RESET()  do{((RCC->AHB1_RSTR) |= (1 << 7)); ((RCC->AHB1_RSTR) &= ~(1 << 7));} while(0)  /* DS 136 */
+
+
+/* ################################################################################################   
  *                                                                              SOME GENERIC MACROS
  * ################################################################################################
  */
