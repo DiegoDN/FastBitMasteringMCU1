@@ -2,7 +2,6 @@
 #include <stdint.h>
 
 #include "stm32f446xx.h"
-#include "../Inc/stm32f446xx.h"
 #include "stm32f446xx_gpio_driver.h"
 
 
@@ -108,7 +107,7 @@ void GPIO_Init  (GPIO_Handle_t *pGPIOHandle)
 		temp = ( pGPIOHandle->GPIOPinConfig.GPIO_PinMode << (2 * pGPIOHandle->GPIOPinConfig.GPIO_PinNumber) ); 
 		//2 because the datasheet says that each Pin take 2 positions.
 		pGPIOHandle->pGPIOx->MODER &= ~( 0x3 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
-		pGPIOHandle->pGPIOx->MODER = temp;                                                  //set
+		pGPIOHandle->pGPIOx->MODER |= temp;                                                  //set
 	}
 
 	else

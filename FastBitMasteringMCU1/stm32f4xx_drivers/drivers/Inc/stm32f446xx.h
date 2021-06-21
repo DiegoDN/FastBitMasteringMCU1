@@ -20,11 +20,11 @@
  * ################################################################################################
  */
     
-#define PERIPH_BASEADDR	                0x04000000UL                                    /* DS 59 */
-#define APB1_PERIPH_BASEADDR            PERIPH_BASE                                     /* DS 62 */
-#define APB2_PERIPH_BASEADDR            0x04001000UL                                    /* DS 58 */
-#define AHB1_PERIPH_BASEADDR            0x04002000UL                                    /* DS 57 */
-#define AHB2_PERIPH_BASEADDR            0x05000000UL                                    /* DS 57 */
+#define PERIPH_BASEADDR	                0x40000000UL                                    /* DS 59 */
+#define APB1_PERIPH_BASEADDR            PERIPH_BASEADDR                                 /* DS 62 */
+#define APB2_PERIPH_BASEADDR            0x40010000UL                                    /* DS 58 */
+#define AHB1_PERIPH_BASEADDR            0x40020000UL                                    /* DS 57 */
+#define AHB2_PERIPH_BASEADDR            0x50000000UL                                    /* DS 57 */
 
 
 /* ################################################################################################   
@@ -303,9 +303,12 @@ typedef struct
 #define GPIO_PIN_RESET                  DISABLE     
 
 
+/* ################################################################################################
+ *                                                                                     HEADER FILES
+ * ################################################################################################
+ */
 
-
-
+#include "stm32f446xx_gpio_driver.h"
 
 
 
