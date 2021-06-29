@@ -43,6 +43,8 @@
 
 #define RCC_BASEADDR                    (AHB1_PERIPH_BASEADDR + 0x3800)                 /* DS 57 */
 
+#define EXTI_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3C00)                 /* DS 57 */
+
 /* ################################################################################################
  *                                                        BASE ADDRESSES OF PERIPHERALS ON APB1 BUS
  * ################################################################################################
@@ -133,6 +135,31 @@ typedef struct
     __vo uint32_t DCKCFGR2;    /* DEDICATED CLK CONFIGURATION REG 2 - ADDR OFFSET: 0x94 - DS 175 */
  } RCC_RegDef_t;
 
+
+typedef struct 
+{
+    __vo uint32_t IMR;                        /* INTERRUPT MASK REG - ADDR OFFSET: 0x00 - DS 246 */
+    __vo uint32_t EMR;                            /* EVENT MASK REG - ADDR OFFSET: 0x04 - DS 246 */
+    __vo uint32_t RTSR;            /* RISING TRIGGER SELECTION REG - ADDR OFFSET:  0x08 - DS 247 */
+    __vo uint32_t FTSR;           /* FALLING TRIGGER SELECTION REG - ADDR OFFSET:  0x0C - DS 247 */
+    __vo uint32_t SWIER;       /* SOFTWARE INTERRUPT EVENT REG REG - ADDR OFFSET:  0x10 - DS 248 */
+    __vo uint32_t PR;                               /* PENDING REG - ADDR OFFSET:  0x14 - DS 248 */
+} EXTI_RegDef_t;
+
+
+typedef struct 
+{
+    __vo uint32_t MEMRMP;                       /* MEMORY REMAP REG - ADDR OFFSET: 0x00 - DS 195 */
+    __vo uint32_t PMC;              /* PERIP. MODE CONFIGURATON REG - ADDR OFFSET: 0x04 - DS 197 */
+    __vo uint32_t EXTICR1;             /* EXTERNAL INTERRUPT 1 REG - ADDR OFFSET:  0x08 - DS 197 */
+    __vo uint32_t EXTICR2;             /* EXTERNAL INTERRUPT 2 REG - ADDR OFFSET:  0x0C - DS 198 */
+    __vo uint32_t EXTICR3;                 /* EXTERNAL INTERRUPT 3 - ADDR OFFSET:  0x10 - DS 199 */
+    __vo uint32_t EXTICR4;            /* EXTERNAL INTERRUPT 41 REG - ADDR OFFSET:  0x14 - DS 199 */
+    __vo uint32_t CMPCR;             /* COMPENSATION CELL CTRL REG - ADDR OFFSET:  0x20 - DS 200 */
+    __vo uint32_t CFGR;                      /* CCONFIGURATION REG - ADDR OFFSET:  0x2C - DS 200 */
+} SYSCFG_RegDef_t;
+
+
 /* ################################################################################################   
  *                                                                           PERIPHERAL DEFINITIONS 
  * ################################################################################################
@@ -149,6 +176,9 @@ typedef struct
 
 #define RCC                             ((RCC_RegDef_t *) RCC_BASEADDR )
 
+#define EXTI                            ((EXTI_RegDef_t *) EXTI_BASEADDR )
+
+#define SYSCFG                          ((SYSCFG_RegDef_t *) SYSCFG_BASEADDR )
 
 /* ################################################################################################   
  *                                                        CLOCK ENABLE MACROS FOR GPIOX PERIPHERALS
