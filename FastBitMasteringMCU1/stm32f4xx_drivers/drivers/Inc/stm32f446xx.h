@@ -1,7 +1,35 @@
 #ifndef STM32F446XX_H_
 #define STM32F446XX_H_
 
-#define __vo volatile
+/* ################################################################################################   
+ *                                                                              SOME GENERIC MACROS
+ * ################################################################################################
+ */
+
+#define __vo                            volatile
+#define ENABLE                          1
+#define DISABLE                         0
+#define SET                             ENABLE
+#define RESET                           DISABLE     
+#define GPIO_PIN_SET                    ENABLE
+#define GPIO_PIN_RESET                  DISABLE     
+
+
+/* ################################################################################################
+ *                                                                       PROCESSOR SPECIFIC DETAILS
+ * ################################################################################################
+ */
+
+#define NVIC_ISER0                      ((__vo uint32_t *) 0xE000E100)
+#define NVIC_ISER1                      ((__vo uint32_t *) 0xE000E104)
+#define NVIC_ISER2                      ((__vo uint32_t *) 0xE000E108)
+#define NVIC_ISER3                      ((__vo uint32_t *) 0xE000E10C)
+
+#define NVIC_ICER0                      ((__vo uint32_t *) 0xE000E180)
+#define NVIC_ICER1                      ((__vo uint32_t *) 0xE000E184)
+#define NVIC_ICER2                      ((__vo uint32_t *) 0xE000E188)
+#define NVIC_ICER3                      ((__vo uint32_t *) 0xE000E18C)
+
 
 /* ################################################################################################
  *                                                        BASE ADDRESSES OF FLASH AND SRAM MEMORIES
@@ -321,16 +349,54 @@ typedef struct
 
 
 /* ################################################################################################   
- *                                                                              SOME GENERIC MACROS
+ *                                                                       MACRO FOR BASE ADDR RETURN
  * ################################################################################################
  */
- 
-#define ENABLE                          1
-#define DISABLE                         0
-#define SET                             ENABLE
-#define RESET                           DISABLE     
-#define GPIO_PIN_SET                    ENABLE
-#define GPIO_PIN_RESET                  DISABLE     
+
+
+#define GPIO_BASEADDR_TO_CODE(x)     (  (x == GPIOA) ? 0 : \
+                                        (x == GPIOB) ? 1 : \
+                                        (x == GPIOC) ? 2 : \
+                                        (x == GPIOD) ? 3 : \
+                                        (x == GPIOE) ? 4 : \
+                                        (x == GPIOF) ? 5 : \
+                                        (x == GPIOG) ? 6 : \
+                                        (x == GPIOH) ? 7 : 9 )
+
+
+
+/* ################################################################################################   
+ *                                                                     INTERRUPT REQUEST IRQ MACROS
+ * ################################################################################################
+ */
+
+#define IRQ_NO_EXTI0                    6                                       /* DS PG 239-240 */
+#define IRQ_NO_EXTI1                    7                                       /* DS PG 239-240 */
+#define IRQ_NO_EXTI2                    8                                       /* DS PG 239-240 */
+#define IRQ_NO_EXTI3                    9                                       /* DS PG 239-240 */
+#define IRQ_NO_EXTI4                    10                                      /* DS PG 239-240 */
+#define IRQ_NO_EXTI9_5                  23                                      /* DS PG 239-240 */
+#define IRQ_NO_EXTI15_10                40                                      /* DS PG 239-240 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ################################################################################################
@@ -339,16 +405,6 @@ typedef struct
  */
 
 #include "stm32f446xx_gpio_driver.h"
-
-
-
-
-
-
-
-
-
-
 
 #endif /* STM32F446XX_H_ */
 
