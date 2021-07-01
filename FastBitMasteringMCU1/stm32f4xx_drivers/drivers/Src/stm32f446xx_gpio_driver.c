@@ -100,84 +100,84 @@ void GPIO_Init  (GPIO_Handle_t *pGPIOHandle)
 
 	/* 1 Configure the MODE of the GPIO Pin */
 
-	if(pGPIOHandle->GPIOPinConfig.GPIO_PinMode <= GPIO_MODE_ANALOG)
+	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_ANALOG)
 	{
 		/* THIS IS THE NON-INTERRUPT MODE */
 
-		temp = ( pGPIOHandle->GPIOPinConfig.GPIO_PinMode << (2 * pGPIOHandle->GPIOPinConfig.GPIO_PinNumber) ); 
+		temp = ( pGPIOHandle->GPIO_PinConfig.GPIO_PinMode << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber) ); 
 		//2 because the datasheet says that each Pin take 2 positions.
-		pGPIOHandle->pGPIOx->MODER &= ~( 0x3 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
+		pGPIOHandle->pGPIOx->MODER &= ~( 0x3 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber); //clear
 		pGPIOHandle->pGPIOx->MODER |= temp;                                                  //set
 	}
 
 	else
 	{
-		if(pGPIOHandle->GPIOPinConfig.GPIO_PinMode == GPIO_MODE_ITFT)
+		if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_ITFT)
 		{
 			/* 1a. configure the FTSR */
-			EXTI->FTSR |= (1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);   /* set   the FTSR BIT */
-			EXTI->RTSR &= ~(1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);  /* clear the RTSR BIT */
+			EXTI->FTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);   /* set   the FTSR BIT */
+			EXTI->RTSR &= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);  /* clear the RTSR BIT */
 		}
-		else if(pGPIOHandle->GPIOPinConfig.GPIO_PinMode == GPIO_MODE_ITRT)
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_ITRT)
 		{
 			/* 1b. configure the RTSR */
-			EXTI->RTSR |= (1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);   /* set   the RTSR BIT */
-			EXTI->FTSR &= ~(1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);  /* clear the FTSR BIT */
+			EXTI->RTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);   /* set   the RTSR BIT */
+			EXTI->FTSR &= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);  /* clear the FTSR BIT */
 
 		}
-		else if(pGPIOHandle->GPIOPinConfig.GPIO_PinMode == GPIO_MODE_ITFRT)
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_ITFRT)
 		{
 			/* 1b. configure the FTSR and RTSR*/
-			EXTI->FTSR |= (1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);   /* set   the FTSR BIT */
-			EXTI->RTSR |= (1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);   /* set   the RTSR BIT */
+			EXTI->FTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);   /* set   the FTSR BIT */
+			EXTI->RTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);   /* set   the RTSR BIT */
 		}
 
 			/* 2. Configure the GPIO Port selection in SYSCFG_EXTICR */
 
 
 			/* 3. Enable the EXTI interrupt delivery using IMR */
-			EXTI->IMR |= (1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber);
+			EXTI->IMR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 	}
 
 	temp = 0;
 
 
 	/* 2 Configure the SPEED of the GPIO Pin */
-	temp = ( pGPIOHandle->GPIOPinConfig.GPIO_PinSpeed << (2 * pGPIOHandle->GPIOPinConfig.GPIO_PinNumber) ); 
+	temp = ( pGPIOHandle->GPIO_PinConfig.GPIO_PinSpeed << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber) ); 
 	//2 because the datasheet says that each Pin take 2 positions.
-	pGPIOHandle->pGPIOx->OSPEEDER &= ~( 0x3 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
+	pGPIOHandle->pGPIOx->OSPEEDER &= ~( 0x3 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber); //clear
 	pGPIOHandle->pGPIOx->OSPEEDER |= temp;                                                 //set
 	temp = 0;
 
 	/* 3 Configure the PUPD of the GPIO Pin */
-	temp = ( pGPIOHandle->GPIOPinConfig.GPIO_PinPuPdControl << (2 * pGPIOHandle->GPIOPinConfig.GPIO_PinNumber) ); 
+	temp = ( pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber) ); 
 	//2 because the datasheet says that each Pin take 2 positions.
-	pGPIOHandle->pGPIOx->PUPDR &= ~( 0x3 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
+	pGPIOHandle->pGPIOx->PUPDR &= ~( 0x3 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber); //clear
 	pGPIOHandle->pGPIOx->PUPDR |= temp;                                                 //set
 	temp = 0;
 
 
 	/* 4 Configure the OPTYPE of the GPIO Pin */
-	temp = ( pGPIOHandle->GPIOPinConfig.GPIO_PinOPType << (1 * pGPIOHandle->GPIOPinConfig.GPIO_PinNumber) ); 
+	temp = ( pGPIOHandle->GPIO_PinConfig.GPIO_PinOPType << (1 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber) ); 
 	//1 because the datasheet says that each Pin take 1 positions.
-	pGPIOHandle->pGPIOx->OTYPER &= ~( 0x1 << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
+	pGPIOHandle->pGPIOx->OTYPER &= ~( 0x1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber); //clear
 	pGPIOHandle->pGPIOx->OTYPER |= temp;                                                  //set
 	temp = 0;
 
 	/* 5 Configure the ALT FUNCT of the GPIO Pin */
-	temp = pGPIOHandle->GPIOPinConfig.GPIO_PinAltFuncMode;
+	temp = pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFuncMode;
 	
-	if(pGPIOHandle->GPIOPinConfig.GPIO_PinNumber < 8)
+	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber < 8)
 	{
-		uint8_t temp2 = (pGPIOHandle->GPIOPinConfig.GPIO_PinNumber % 8);
-		pGPIOHandle->pGPIOx->AFRL &= ~( 0xF << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
+		uint8_t temp2 = (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 8);
+		pGPIOHandle->pGPIOx->AFRL &= ~( 0xF << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber); //clear
 		pGPIOHandle->pGPIOx->AFRL |= temp << (4 * temp2);                                  //set
 		temp2 = 0;										    
 	}
 	else
 	{
-		uint8_t temp2 = (pGPIOHandle->GPIOPinConfig.GPIO_PinNumber % 8);
-		pGPIOHandle->pGPIOx->AFRH &= ~( 0xF << pGPIOHandle->GPIOPinConfig.GPIO_PinNumber); //clear
+		uint8_t temp2 = (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber % 8);
+		pGPIOHandle->pGPIOx->AFRH &= ~( 0xF << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber); //clear
 		pGPIOHandle->pGPIOx->AFRH |= temp << (4 * temp2);                                  //set
 		temp2 = 0;						    				
 	}

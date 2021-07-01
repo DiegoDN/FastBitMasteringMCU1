@@ -21,11 +21,11 @@ int main (void)
     GPIO_Handle_t GpioLed;
 
     GpioLed.pGPIOx = GPIOA;
-    GpioLed.GPIOPinConfig.GPIO_PinNumber = GPIO_PIN_05;
-    GpioLed.GPIOPinConfig.GPIO_PinMode = GPIO_MODE_OUT;
-    GpioLed.GPIOPinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
-    GpioLed.GPIOPinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-    GpioLed.GPIOPinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
+    GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_05;
+    GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+    GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+    GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
 
     GPIO_PeripheralClockControl(GPIOA, ENABLE);
 
@@ -40,10 +40,10 @@ int main (void)
     GPIO_Handle_t GpioButton;
 
     GpioButton.pGPIOx = GPIOC;
-    GpioButton.GPIOPinConfig.GPIO_PinNumber = GPIO_PIN_13;
-    GpioButton.GPIOPinConfig.GPIO_PinMode = GPIO_MODE_IN;
-    GpioButton.GPIOPinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
-    GpioButton.GPIOPinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
+    GpioButton.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_13;
+    GpioButton.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+    GpioButton.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+    GpioButton.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
 
     GPIO_PeripheralClockControl(GPIOC, ENABLE);
 
