@@ -330,10 +330,10 @@ void GPIO_ToogleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 
 
 /* ################################################################################################
- *                                                                                   GPIO_IRQConfig
+ *                                                                          GPIO_IRQInterruptConfig
  * ################################################################################################
  *	
- * FUNCTION NAME: GPIO_IRQConfig
+ * FUNCTION NAME: GPIO_IRQInterruptConfig
  * FUNCION BRIEF: 
  * PARAMETERS:    
  * PARAMETERS:    
@@ -341,7 +341,7 @@ void GPIO_ToogleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
  * NOTE:          NONE;
  */
 
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriotity, uint8_t EnorDi)
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
 {
 	if(EnorDi == ENABLE)
 	{
@@ -385,6 +385,29 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriotity, uint8_t EnorDi)
 
 
 /* ################################################################################################
+ *                                                                           GPIO_IRQPriorityConfig
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: GPIO_IRQPriorityConfig
+ * FUNCION BRIEF: 
+ * PARAMETERS:    
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ * NOTE:          NONE;
+ */
+
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriotity)
+{
+	uint8_t iprx = IRQNumber / 4;
+	uint8_t iprx_section = IRQNumber % 4;
+	uint8_t shift_ammount = (8 * iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);
+
+	*(NVIC_PR_BASE_ADDR + (iprx * 4)) |= (IRQPriotity << shift_ammount);
+
+}
+
+
+/* ################################################################################################
  *                                                                                 GPIO_IRQHandling
  * ################################################################################################
  *	
@@ -398,5 +421,9 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriotity, uint8_t EnorDi)
 
 void GPIO_IRQHandling(uint8_t PinNumber)
 {
+	if(EXTI->PR & (1 << PinNumber))
+	{
+		EXTI->PR |= (1 << PinNumber);
+	}
 
 }
