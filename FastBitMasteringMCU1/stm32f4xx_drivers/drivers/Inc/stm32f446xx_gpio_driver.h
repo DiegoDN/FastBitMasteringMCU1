@@ -5,6 +5,10 @@
 #include <stdint.h>
 #include "stm32f446xx.h"
 
+/*
+ * DS = DATASHEET   @ = PAGE NUMBER
+ * DATASHEET = dm00135183-stm32f446xx-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+ */
 
 /* ################################################################################################
  *                                                            CONFIGURATION STRUCTURE FOR GPIO PINs
@@ -106,7 +110,7 @@ void GPIO_ToogleOutputPin		(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
 
 /* IRQ Handling */
 void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriotity);
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriotity);
 void GPIO_IRQHandling(uint8_t PinNumber);
 
 

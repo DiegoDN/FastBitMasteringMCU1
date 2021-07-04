@@ -1,5 +1,11 @@
 #ifndef STM32F446XX_H_
 #define STM32F446XX_H_
+#include <stdint.h>
+
+/*
+ * DS = DATASHEET   @ = PAGE NUMBER
+ * DATASHEET = dm00135183-stm32f446xx-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+ */
 
 /* ################################################################################################   
  *                                                                              SOME GENERIC MACROS
@@ -25,17 +31,17 @@
  * ################################################################################################
  */
 
-#define NVIC_ISER0                      ((__vo uint32_t *) 0xE000E100)
-#define NVIC_ISER1                      ((__vo uint32_t *) 0xE000E104)
-#define NVIC_ISER2                      ((__vo uint32_t *) 0xE000E108)
-#define NVIC_ISER3                      ((__vo uint32_t *) 0xE000E10C)
+#define NVIC_ISER0                      ((__vo uint32_t *) 0xE000E100)                 /* DS 219 */
+#define NVIC_ISER1                      ((__vo uint32_t *) 0xE000E104)                 /* DS 219 */
+#define NVIC_ISER2                      ((__vo uint32_t *) 0xE000E108)                 /* DS 219 */
+#define NVIC_ISER3                      ((__vo uint32_t *) 0xE000E10C)                 /* DS 219 */
 
-#define NVIC_ICER0                      ((__vo uint32_t *) 0xE000E180)
-#define NVIC_ICER1                      ((__vo uint32_t *) 0xE000E184)
-#define NVIC_ICER2                      ((__vo uint32_t *) 0xE000E188)
-#define NVIC_ICER3                      ((__vo uint32_t *) 0xE000E18C)
+#define NVIC_ICER0                      ((__vo uint32_t *) 0xE000E180)                 /* DS 219 */
+#define NVIC_ICER1                      ((__vo uint32_t *) 0xE000E184)                 /* DS 219 */
+#define NVIC_ICER2                      ((__vo uint32_t *) 0xE000E188)                 /* DS 219 */
+#define NVIC_ICER3                      ((__vo uint32_t *) 0xE000E18C)                 /* DS 219 */
 
-#define NVIC_PR_BASE_ADDR               ((__vo uint32_t *) 0xE000E400)
+#define NVIC_PR_BASE_ADDR               ((__vo uint32_t *) 0xE000E400)                 /* DS 219 */
 
 #define NO_PR_BITS_IMPLEMENTED          4
 
@@ -45,11 +51,11 @@
  * ################################################################################################
  */
 
-#define FLASH_BASEADDR                  0x08000000UL                                    /* DS 62 */
-#define SRAM1_BASEADDR                  0x20000000UL                                    /* DS 62 */
-#define SRAM2_BASEADDR                  0x2001C000UL                                    /* DS 62 */
+#define FLASH_BASEADDR                  0x08000000U                                     /* DS 62 */
+#define SRAM1_BASEADDR                  0x20000000U                                     /* DS 62 */
+#define SRAM2_BASEADDR                  0x2001C000U                                     /* DS 62 */
 #define SRAM                            SRAM1_BASEADDR                                  /* DS 62 */
-#define ROM                             0x001FFFFFUL                                    /* DS 62 */
+#define ROM                             0x001FFFFFU                                     /* DS 62 */
 
 
 /* ################################################################################################
@@ -57,11 +63,11 @@
  * ################################################################################################
  */
     
-#define PERIPH_BASEADDR	                0x40000000UL                                    /* DS 59 */
+#define PERIPH_BASEADDR	                0x40000000U                                     /* DS 59 */
 #define APB1_PERIPH_BASEADDR            PERIPH_BASEADDR                                 /* DS 62 */
-#define APB2_PERIPH_BASEADDR            0x40010000UL                                    /* DS 58 */
-#define AHB1_PERIPH_BASEADDR            0x40020000UL                                    /* DS 57 */
-#define AHB2_PERIPH_BASEADDR            0x50000000UL                                    /* DS 57 */
+#define APB2_PERIPH_BASEADDR            0x40010000U                                     /* DS 58 */
+#define AHB1_PERIPH_BASEADDR            0x40020000U                                     /* DS 57 */
+#define AHB2_PERIPH_BASEADDR            0x50000000U                                     /* DS 57 */
 
 
 /* ################################################################################################   
@@ -69,35 +75,35 @@
  * ################################################################################################
  */
 
-#define GPIOA_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0000)                 /* DS 57 */
-#define GPIOB_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0400)                 /* DS 57 */
-#define GPIOC_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0800)                 /* DS 57 */
-#define GPIOD_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0C00)                 /* DS 57 */
-#define GPIOE_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x1000)                 /* DS 57 */
-#define GPIOF_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0400)                 /* DS 57 */
-#define GPIOG_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0800)                 /* DS 57 */
-#define GPIOH_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x1C00)                 /* DS 57 */
+#define GPIOA_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0000U)                /* DS 57 */
+#define GPIOB_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0400U)                /* DS 57 */
+#define GPIOC_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0800U)                /* DS 57 */
+#define GPIOD_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0C00U)                /* DS 57 */
+#define GPIOE_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x1000U)                /* DS 57 */
+#define GPIOF_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0400U)                /* DS 57 */
+#define GPIOG_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x0800U)                /* DS 57 */
+#define GPIOH_BASEADDR                  (AHB1_PERIPH_BASEADDR + 0x1C00U)                /* DS 57 */
 
-#define RCC_BASEADDR                    (AHB1_PERIPH_BASEADDR + 0x3800)                 /* DS 57 */
+#define RCC_BASEADDR                    (AHB1_PERIPH_BASEADDR + 0x3800U)                /* DS 57 */
 
-#define EXTI_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3C00)                 /* DS 57 */
+#define EXTI_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3C00U)                /* DS 57 */
 
 /* ################################################################################################
  *                                                        BASE ADDRESSES OF PERIPHERALS ON APB1 BUS
  * ################################################################################################
  */
 
-#define CAN1_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x6400)                 /* DS 59 */
-#define CAN2_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x6800)                 /* DS 59 */
-#define I2C1_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x5400)                 /* DS 59 */
-#define I2C2_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x5800)                 /* DS 59 */
-#define I2C3_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x5C00)                 /* DS 59 */
-#define SPI2_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x3800)                 /* DS 59 */
-#define SPI3_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x3C00)                 /* DS 59 */
-#define USART2_BASEADDR                 (APB1_PERIPH_BASEADDR + 0x4400)                 /* DS 59 */
-#define USART3_BASEADDR                 (APB1_PERIPH_BASEADDR + 0x4800)                 /* DS 59 */
-#define UART4_BASEADDR                  (APB1_PERIPH_BASEADDR + 0x4C00)                 /* DS 59 */
-#define UART5_BASEADDR                  (APB1_PERIPH_BASEADDR + 0x5000)                 /* DS 59 */
+#define CAN1_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x6400U)                /* DS 59 */
+#define CAN2_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x6800U)                /* DS 59 */
+#define I2C1_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x5400U)                /* DS 59 */
+#define I2C2_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x5800U)                /* DS 59 */
+#define I2C3_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x5C00U)                /* DS 59 */
+#define SPI2_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x3800U)                /* DS 59 */
+#define SPI3_BASEADDR                   (APB1_PERIPH_BASEADDR + 0x3C00U)                /* DS 59 */
+#define USART2_BASEADDR                 (APB1_PERIPH_BASEADDR + 0x4400U)                /* DS 59 */
+#define USART3_BASEADDR                 (APB1_PERIPH_BASEADDR + 0x4800U)                /* DS 59 */
+#define UART4_BASEADDR                  (APB1_PERIPH_BASEADDR + 0x4C00U)                /* DS 59 */
+#define UART5_BASEADDR                  (APB1_PERIPH_BASEADDR + 0x5000U)                /* DS 59 */
 
 
 /* ################################################################################################
@@ -105,12 +111,12 @@
  * ################################################################################################
  */
 
-#define EXTI_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3C00)                 /* DS 57 */
-#define SPI1_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3000)                 /* DS 58 */
-#define SPI4_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3400)                 /* DS 58 */
-#define SYSCFG_BASEADDR                 (APB2_PERIPH_BASEADDR + 0x5400)                 /* DS 58 */
-#define USART1_BASEADDR                 (APB2_PERIPH_BASEADDR + 0x1000)                 /* DS 58 */
-#define USART6_BASEADDR                 (APB2_PERIPH_BASEADDR + 0x1400)                 /* DS 58 */
+#define EXTI_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3C00U)                /* DS 57 */
+#define SPI1_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3000U)                /* DS 58 */
+#define SPI4_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3400U)                /* DS 58 */
+#define SYSCFG_BASEADDR                 (APB2_PERIPH_BASEADDR + 0x3800U)                /* DS 58 */
+#define USART1_BASEADDR                 (APB2_PERIPH_BASEADDR + 0x1000U)                /* DS 58 */
+#define USART6_BASEADDR                 (APB2_PERIPH_BASEADDR + 0x1400U)                /* DS 58 */
 
 
 /* ################################################################################################
@@ -130,6 +136,7 @@ typedef struct
     __vo uint32_t LCKR;                  /* CONFIGURATION LOCK REG - ADDR OFFSET:  0x1C - DS 194 */
     __vo uint32_t AFRL;              /* ALTERNATE FUNCTION REG LOW - ADDR OFFSET:  0x20 - DS 194 */
     __vo uint32_t AFRH;             /* ALTERNATE FUNCTION REG HIGH - ADDR OFFSET:  0x20 - DS 194 */
+
 } GPIO_RegDef_t;
 
 
@@ -170,6 +177,7 @@ typedef struct
     __vo uint32_t DCKCFGR;       /* DEDICATED CLK CONFIGURATION REG - ADDR OFFSET: 0x8C - DS 175 */
     __vo uint32_t CK_GATENR;                 /* CLK GATE ENABLE REG - ADDR OFFSET: 0x90 - DS 175 */
     __vo uint32_t DCKCFGR2;    /* DEDICATED CLK CONFIGURATION REG 2 - ADDR OFFSET: 0x94 - DS 175 */
+    
  } RCC_RegDef_t;
 
 
@@ -181,6 +189,7 @@ typedef struct
     __vo uint32_t FTSR;           /* FALLING TRIGGER SELECTION REG - ADDR OFFSET:  0x0C - DS 247 */
     __vo uint32_t SWIER;       /* SOFTWARE INTERRUPT EVENT REG REG - ADDR OFFSET:  0x10 - DS 248 */
     __vo uint32_t PR;                               /* PENDING REG - ADDR OFFSET:  0x14 - DS 248 */
+
 } EXTI_RegDef_t;
 
 
@@ -194,6 +203,7 @@ typedef struct
     __vo uint32_t EXTICR4;            /* EXTERNAL INTERRUPT 41 REG - ADDR OFFSET:  0x14 - DS 199 */
     __vo uint32_t CMPCR;             /* COMPENSATION CELL CTRL REG - ADDR OFFSET:  0x20 - DS 200 */
     __vo uint32_t CFGR;                      /* CCONFIGURATION REG - ADDR OFFSET:  0x2C - DS 200 */
+
 } SYSCFG_RegDef_t;
 
 
@@ -363,14 +373,14 @@ typedef struct
  */
 
 
-#define GPIO_BASEADDR_TO_CODE(x)     (  (x == GPIOA) ? 0 : \
-                                        (x == GPIOB) ? 1 : \
-                                        (x == GPIOC) ? 2 : \
-                                        (x == GPIOD) ? 3 : \
-                                        (x == GPIOE) ? 4 : \
-                                        (x == GPIOF) ? 5 : \
-                                        (x == GPIOG) ? 6 : \
-                                        (x == GPIOH) ? 7 : 9 )
+#define GPIO_BASEADDR_TO_CODE(x)        ( (x == GPIOA) ? 0 : \
+                                          (x == GPIOB) ? 1 : \
+                                          (x == GPIOC) ? 2 : \
+                                          (x == GPIOD) ? 3 : \
+                                          (x == GPIOE) ? 4 : \
+                                          (x == GPIOF) ? 5 : \
+                                          (x == GPIOG) ? 6 : \
+                                          (x == GPIOH) ? 7 : 0 )
 
 
 
@@ -387,7 +397,22 @@ typedef struct
 #define IRQ_NO_EXTI9_5                  23                                      /* DS PG 239-240 */
 #define IRQ_NO_EXTI15_10                40                                      /* DS PG 239-240 */
 
-
+#define NVIC_IRQ_PRI_0                  0
+#define NVIC_IRQ_PRI_1                  1
+#define NVIC_IRQ_PRI_2                  2
+#define NVIC_IRQ_PRI_3                  3
+#define NVIC_IRQ_PRI_4                  4
+#define NVIC_IRQ_PRI_5                  5
+#define NVIC_IRQ_PRI_6                  6
+#define NVIC_IRQ_PRI_7                  7
+#define NVIC_IRQ_PRI_8                  8
+#define NVIC_IRQ_PRI_9                  9
+#define NVIC_IRQ_PRI_10                 10
+#define NVIC_IRQ_PRI_11                 11
+#define NVIC_IRQ_PRI_12                 12
+#define NVIC_IRQ_PRI_13                 13
+#define NVIC_IRQ_PRI_14                 14
+#define NVIC_IRQ_PRI_15                 15
 
 
 
