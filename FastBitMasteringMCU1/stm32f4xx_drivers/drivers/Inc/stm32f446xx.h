@@ -88,6 +88,7 @@
 
 #define EXTI_BASEADDR                   (APB2_PERIPH_BASEADDR + 0x3C00U)                /* DS 57 */
 
+
 /* ################################################################################################
  *                                                        BASE ADDRESSES OF PERIPHERALS ON APB1 BUS
  * ################################################################################################
@@ -187,7 +188,7 @@ typedef struct
     __vo uint32_t EMR;                            /* EVENT MASK REG - ADDR OFFSET: 0x04 - DS 246 */
     __vo uint32_t RTSR;            /* RISING TRIGGER SELECTION REG - ADDR OFFSET:  0x08 - DS 247 */
     __vo uint32_t FTSR;           /* FALLING TRIGGER SELECTION REG - ADDR OFFSET:  0x0C - DS 247 */
-    __vo uint32_t SWIER;       /* SOFTWARE INTERRUPT EVENT REG REG - ADDR OFFSET:  0x10 - DS 248 */
+    __vo uint32_t SWIER;           /* SOFTWARE INTERRUPT EVENT REG - ADDR OFFSET:  0x10 - DS 248 */
     __vo uint32_t PR;                               /* PENDING REG - ADDR OFFSET:  0x14 - DS 248 */
 
 } EXTI_RegDef_t;
@@ -202,12 +203,27 @@ typedef struct
     __vo uint32_t EXTICR3;                 /* EXTERNAL INTERRUPT 3 - ADDR OFFSET:  0x10 - DS 199 */
     __vo uint32_t EXTICR4;            /* EXTERNAL INTERRUPT 41 REG - ADDR OFFSET:  0x14 - DS 199 */
     __vo uint32_t CMPCR;             /* COMPENSATION CELL CTRL REG - ADDR OFFSET:  0x20 - DS 200 */
-    __vo uint32_t CFGR;                      /* CCONFIGURATION REG - ADDR OFFSET:  0x2C - DS 200 */
+    __vo uint32_t CFGR;                       /* CONFIGURATION REG - ADDR OFFSET:  0x2C - DS 200 */
 
 } SYSCFG_RegDef_t;
 
 
-/* ################################################################################################   
+typedef struct 
+{
+    __vo uint32_t CR1;                             /* CONTROL REG 1 - ADDR OFFSET: 0x00 - DS 886 */
+    __vo uint32_t CR2;                             /* CONTROL REG 2 - ADDR OFFSET: 0x04 - DS 888 */
+    __vo uint32_t SR;                                /* STATUS REG - ADDR OFFSET:  0x08 - DS 889 */
+    __vo uint32_t DR;                                  /* DATA REG - ADDR OFFSET:  0x0C - DS 890 */
+    __vo uint32_t CRCPR;                     /* CRC POLYNOMIAL REG - ADDR OFFSET:  0x10 - DS 891 */
+    __vo uint32_t RXCRCR;                            /* RX CRC REG - ADDR OFFSET:  0x14 - DS 892 */
+    __vo uint32_t TXCRCR;                            /* TX CRC REG - ADDR OFFSET:  0x18 - DS 892 */
+    __vo uint32_t I2SCFGR;                       /* I2S CONFIG REG - ADDR OFFSET:  0x1C - DS 893 */
+    __vo uint32_t I2SPR;                      /* I2S PRESCALER REG - ADDR OFFSET:  0x20 - DS 894 */
+
+} SPI_RegDef_t;
+
+
+/* ################################################################################################
  *                                                                           PERIPHERAL DEFINITIONS 
  * ################################################################################################
  */
@@ -226,6 +242,12 @@ typedef struct
 #define EXTI                            ((EXTI_RegDef_t *) EXTI_BASEADDR )
 
 #define SYSCFG                          ((SYSCFG_RegDef_t *) SYSCFG_BASEADDR )
+
+#define SPI1                            ((SPI_RegDef_t *) SPI1_BASEADDR)
+#define SPI2                            ((SPI_RegDef_t *) SPI2_BASEADDR)
+#define SPI3                            ((SPI_RegDef_t *) SPI3_BASEADDR)
+#define SPI4                            ((SPI_RegDef_t *) SPI4_BASEADDR)
+
 
 /* ################################################################################################   
  *                                                        CLOCK ENABLE MACROS FOR GPIOX PERIPHERALS
@@ -260,6 +282,7 @@ typedef struct
 #define SPI1_PCLK_EN()                  ((RCC->APB2_ENR) |= (1 << 12))                 /* DS 149 */
 #define SPI2_PCLK_EN()                  ((RCC->APB1_ENR) |= (1 << 14))                 /* DS 147 */
 #define SPI3_PCLK_EN()                  ((RCC->APB1_ENR) |= (1 << 15))                 /* DS 147 */
+#define SPI4_PCLK_EN()                  ((RCC->APB2_ENR) |= (1 << 13))                 /* DS 149 */
 
 
 /* ################################################################################################   
@@ -323,6 +346,7 @@ typedef struct
 #define SPI1_PCLK_DI()                  ((RCC->APB2_ENR) &= ~(1 << 12))                /* DS 149 */
 #define SPI2_PCLK_DI()                  ((RCC->APB1_ENR) &= ~(1 << 14))                /* DS 147 */
 #define SPI3_PCLK_DI()                  ((RCC->APB1_ENR) &= ~(1 << 15))                /* DS 147 */
+#define SPI4_PCLK_DI()                  ((RCC->APB2_ENR) &= ~(1 << 13))                /* DS 149 */
 
 
 /* ################################################################################################   
@@ -343,6 +367,7 @@ typedef struct
 
 #define CAN1_PCLK_DI()                  ((RCC->APB1_ENR) &= ~(1 << 25))                /* DS 147 */
 #define CAN2_PCLK_DI()                  ((RCC->APB1_ENR) &= ~(1 << 26))                /* DS 147 */
+
 
 /* ################################################################################################   
  *                                                      CLOCK DISABLE MACROS FOR SYSCFG PERIPHERALS
@@ -368,7 +393,18 @@ typedef struct
 
 
 /* ################################################################################################   
- *                                                                       MACRO FOR BASE ADDR RETURN
+ *                                                               RESET MACROS FOR SPIX PERIPHERALS
+ * ################################################################################################
+ */
+
+#define SPI1_REG_RESET()  do{((RCC->APB2_RSTR) |= (1 << 12)); ((RCC->APB2_RSTR) &= ~(1 << 12));} while(0)  /* DS 142 */
+#define SPI2_REG_RESET()  do{((RCC->APB1_RSTR) |= (1 << 14)); ((RCC->APB1_RSTR) &= ~(1 << 14));} while(0)  /* DS 139 */
+#define SPI3_REG_RESET()  do{((RCC->APB1_RSTR) |= (1 << 15)); ((RCC->APB1_RSTR) &= ~(1 << 15));} while(0)  /* DS 139 */
+#define SPI4_REG_RESET()  do{((RCC->APB2_RSTR) |= (1 << 13)); ((RCC->APB2_RSTR) &= ~(1 << 13));} while(0)  /* DS 142 */
+
+
+/* ################################################################################################   
+ *                                                                  MACRO FOR GPIO BASE ADDR RETURN
  * ################################################################################################
  */
 
@@ -382,6 +418,46 @@ typedef struct
                                           (x == GPIOG) ? 6 : \
                                           (x == GPIOH) ? 7 : 0 )
 
+
+
+/* ################################################################################################   
+ *                                                                       MACRO FOR SPI BITS CONFIGS
+ * ################################################################################################
+ */
+
+
+#define SPI_CR1_BIDIMODE                15                                          /* DS PG 886 */
+#define SPI_CR1_BIDIOE                  14                                          /* DS PG 886 */
+#define SPI_CR1_CRC_EN                  13                                          /* DS PG 886 */
+#define SPI_CR1_CRC_NEXT                12                                          /* DS PG 886 */
+#define SPI_CR1_DFF                     11                                          /* DS PG 886 */
+#define SPI_CR1_RXONLY                  10                                          /* DS PG 886 */
+#define SPI_CR1_SSM                     9                                           /* DS PG 886 */
+#define SPI_CR1_SSI                     8                                           /* DS PG 886 */
+#define SPI_CR1_LSB_FIRST               7                                           /* DS PG 886 */
+#define SPI_CR1_SPE                     6                                           /* DS PG 886 */
+#define SPI_CR1_BR                      3                                           /* DS PG 886 */
+#define SPI_CR1_MSTR                    2                                           /* DS PG 886 */
+#define SPI_CR1_CPOL                    1                                           /* DS PG 886 */
+#define SPI_CR1_CPHA                    0                                           /* DS PG 886 */
+
+#define SPI_CR2_TXEIEN                  7                                           /* DS PG 888 */
+#define SPI_CR2_RXEIEN                  6                                           /* DS PG 888 */
+#define SPI_CR2_ERRIE                   5                                           /* DS PG 888 */
+#define SPI_CR2_FRF                     4                                           /* DS PG 888 */
+#define SPI_CR2_SSOEN                   2                                           /* DS PG 888 */
+#define SPI_CR2_TXDMAEN                 1                                           /* DS PG 888 */
+#define SPI_CR2_RXDMAEN                 0                                           /* DS PG 888 */
+
+#define SPI_SR_FRE                      8                                           /* DS PG 889 */
+#define SPI_SR_BSY                      7                                           /* DS PG 889 */
+#define SPI_SR_OVR                      6                                           /* DS PG 889 */
+#define SPI_SR_MODF                     5                                           /* DS PG 889 */
+#define SPI_SR_CRCERR                   4                                           /* DS PG 889 */
+#define SPI_SR_UDR                      3                                           /* DS PG 889 */
+#define SPI_SR_CHSIDE                   2                                           /* DS PG 889 */
+#define SPI_SR_TXE                      1                                           /* DS PG 889 */
+#define SPI_SR_RXNE                     0                                           /* DS PG 889 */
 
 
 /* ################################################################################################   
@@ -439,6 +515,7 @@ typedef struct
  */
 
 #include "stm32f446xx_gpio_driver.h"
+#include "stm32f446xx_spi_driver.h"
 
 #endif /* STM32F446XX_H_ */
 
