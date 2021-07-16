@@ -19,7 +19,8 @@
 #define RESET                           DISABLE     
 #define GPIO_PIN_SET                    ENABLE
 #define GPIO_PIN_RESET                  DISABLE     
-
+#define FLAG_RESET                      RESET
+#define FLAG_SET                        SET
 
 /* ################################################################################################
  *                                                                       PROCESSOR SPECIFIC DETAILS

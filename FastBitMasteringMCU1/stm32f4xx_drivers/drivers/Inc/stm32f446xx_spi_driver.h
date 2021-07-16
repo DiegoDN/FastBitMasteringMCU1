@@ -51,11 +51,15 @@ typedef struct
 #define SPI_CPHA_HIGH                   1                                      /* CPHA DS PG 886 */
 #define SPI_CPHA_LOW                    0                                      /* CPHA DS PG 886 */
 
+#define SPI_CPOL_HIGH                   1                                      /* CPOL DS PG 886 */
+#define SPI_CPOL_LOW                    0                                      /* CPOL DS PG 886 */
+
 #define SPI_SSM_EN                      1                                       /* SSM DS PG 886 */
 #define SPI_SSM_DI                      0                                       /* SSM DS PG 886 */
 
-
-
+#define SPI_TXE_FLAG                    (1 << SPI_SR_TXE)
+#define SPI_RXNE_FLAG                   (1 << SPI_SR_RNXE)
+#define SPI_BUSY_FLAG                   (1 << SPI_SR_BSY)
 
 /* ################################################################################################
  *                                                                    HANDLE STRUCTURE FOR SPI PINs
@@ -83,8 +87,8 @@ void SPI_Init  (SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_RegDef_t *pSPIx);
 
 /* Data Send and Receive */
-void SPI_SendData(SPI_Handle_t *pSPIx, uint8_t *pTXBuffer, uint32_t Len);
-void SPI_ReceiveData(SPI_Handle_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len );
+void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTXBuffer, uint32_t Len);
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len );
 
 /* IRQ Handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
@@ -93,8 +97,8 @@ void SPI_IRQHandling(SPI_Handle_t *pHandle);
 
 
 /* Other Peripheral Control APIS */
-
-
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 
 
 

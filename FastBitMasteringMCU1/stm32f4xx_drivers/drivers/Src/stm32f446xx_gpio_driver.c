@@ -102,6 +102,9 @@ void GPIO_Init  (GPIO_Handle_t *pGPIOHandle)
 {
 	uint32_t temp = 0;
 
+	/* 0 Enable the Peripheral Clock */
+	GPIO_PeripheralClockControl(pGPIOHandle->pGPIOx, ENABLE);
+
 	/* 1 Configure the MODE of the GPIO Pin */
 
 	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_ANALOG)

@@ -84,6 +84,9 @@ void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
 
 void SPI_Init  (SPI_Handle_t *pSPIHandle)
 {
+	/* 0. ENABLE Peripheral Clock */
+	SPI_PeripheralClockControl(pSPIHandle->pSPIx, ENABLE);
+
 	/* 1. CONFIGURE SPI_CR1 */
 	uint32_t tempreg = 0;
 
@@ -120,7 +123,10 @@ void SPI_Init  (SPI_Handle_t *pSPIHandle)
 	/* 1d. CONFIGURE THE CPHA */
 	tempreg |= pSPIHandle->SPI_Config.SPI_CPHA << SPI_CR1_CPHA;
 
-	/* 1e. SAVE tempreg on SPI_CR1	 */
+	/* 1e. CONFIGURE THE SSM */
+	tempreg |= pSPIHandle->SPI_Config.SPI_SSM << SPI_CR1_SSM;
+
+	/* 1f. SAVE tempreg on SPI_CR1	 */
 	pSPIHandle->pSPIx->CR1 = tempreg;
 }
 
@@ -156,3 +162,114 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
 		SPI4_REG_RESET();
 	} 
 }
+
+
+/* ################################################################################################
+ *                                                                                SPI_GetFlagStatus
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_GetFlagStatus
+ * FUNCION BRIEF: TEST IF A BIT POSITION IS SET OR RESET
+ * PARAMETERS:    SPI NUMBER, FLAG NAME
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ * NOTE:          NONE;
+ */
+
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName)
+{
+	if (pSPIx->SR & FlagName)
+	{
+		return FLAG_SET;	
+	}
+	return FLAG_RESET;
+}
+
+
+/* ################################################################################################
+ *                                                                                     SPI_SendData
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_SendData
+ * FUNCION BRIEF: SEND DATA FROM THE GIVER SPI.
+ * PARAMETERS:    SPI NUMBER, TXBUFFER, LENGTH
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ * NOTE:          THIS IS A BLOCKING CALL;
+ */
+
+void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTXBuffer, uint32_t Len)
+{
+	while(Len > 0)
+	{
+		/* 1. Wait until TXE is set */
+		while (SPI_GetFlagStatus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET);
+
+		/* 2. Check the DFF Bit in CR1 */
+		if ( (pSPIx->CR1 & (1 << SPI_CR1_DFF) ) )
+		{
+			/* 16 bit DFF */
+			/* 1. Load data into the DR */
+			pSPIx->DR = *((uint16_t *)pTXBuffer);
+			Len--;
+			Len--;
+			(uint16_t *)pTXBuffer++;
+		}
+		else
+		{	/* 8 bit DFF */
+			/* 1. Load data into the DR */
+			pSPIx->DR = *((uint8_t *)pTXBuffer);
+			Len--;
+			pTXBuffer++;
+		}
+	}
+}
+
+
+/* ################################################################################################
+ *                                                                            SPI_PeripheralControl
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_PeripheralControl
+ * FUNCION BRIEF: ENABLE THE PERIPHERAL OF THE GIVER SPI.
+ * PARAMETERS:    SPI NUMBER, ENABLE OR DISABLE
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ */
+
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
+{
+	if(EnOrDi == ENABLE)
+	{
+		pSPIx->CR1 |= (1 << SPI_CR1_SPE);
+	}
+	else
+	{
+		pSPIx->CR1 &= ~(1 << SPI_CR1_SPE);
+	}
+}
+
+
+/* ################################################################################################
+ *                                                                                    SPI_SSIConfig
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_SSIConfig
+ * FUNCION BRIEF: ENABLE THE SSI OF THE GIVER SPI as 1 IN ORDER TO AVOID MODE FAULT ERROR MODF.
+ * PARAMETERS:    SPI NUMBER, ENABLE OR DISABLE
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ */
+
+void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
+{
+	if(EnOrDi == ENABLE)
+	{
+		pSPIx->CR1 |= (1 << SPI_CR1_SSI);
+	}
+	else
+	{
+		pSPIx->CR1 &= ~(1 << SPI_CR1_SSI);
+	}
+}
+
