@@ -273,3 +273,26 @@ void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
 	}
 }
 
+
+/* ################################################################################################
+ *                                                                                   SPI_SSOEConfig
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_SSOEConfig
+ * FUNCION BRIEF: ENABLE THE SSOE OF THE GIVER SPI as 1 IN ORDER TO enable NSS.
+ * PARAMETERS:    SPI NUMBER, ENABLE OR DISABLE
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ */
+
+void SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
+{
+	if(EnOrDi == ENABLE)
+	{
+		pSPIx->CR2 |= (1 << SPI_CR2_SSOEN);
+	}
+	else
+	{
+		pSPIx->CR2 &= ~(1 << SPI_CR2_SSOEN);
+	}
+}
