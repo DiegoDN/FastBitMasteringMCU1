@@ -58,8 +58,13 @@ typedef struct
 #define SPI_SSM_DI                      0                                       /* SSM DS PG 886 */
 
 #define SPI_TXE_FLAG                    (1 << SPI_SR_TXE)
-#define SPI_RXNE_FLAG                   (1 << SPI_SR_RNXE)
+#define SPI_RXNE_FLAG                   (1 << SPI_SR_RXNE)
 #define SPI_BUSY_FLAG                   (1 << SPI_SR_BSY)
+
+#define SPI_READY                       0
+#define SPI_BUSY_IN_RX                  1
+#define SPI_BUSY_IN_TX                  2
+
 
 /* ################################################################################################
  *                                                                    HANDLE STRUCTURE FOR SPI PINs
@@ -70,6 +75,13 @@ typedef struct
 {
     SPI_RegDef_t *pSPIx;                /* holds base addr of SPI PORT to which this pin belongs */
     SPI_Config_t SPI_Config;                             /* holds SPI Pin configuration settings */
+    uint8_t *pTXBuffer;
+    uint8_t *pRXBuffer;
+    uint8_t TXLen;                                               /* Stores app TX Buffer Address */
+    uint8_t RXLen;                                               /* Stores app RX Buffer Address */
+    uint8_t TXState;                                                     /* Stores app TX length */
+    uint8_t RXState;                                                     /* Stores app TX length */
+
 } SPI_Handle_t;
 
 
@@ -89,21 +101,28 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
 /* Data Send and Receive */
 uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint32_t FlagName);
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTXBuffer, uint32_t Len);
-void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len );
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len);
+
+/* Data Send and Receive with Interrupts */
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTXBuffer, uint32_t Len);
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRXBuffer, uint32_t Len);
 
 /* IRQ Handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
 void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriotity);
-void SPI_IRQHandling(SPI_Handle_t *pHandle);
+void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
 
 
 /* Other Peripheral Control APIS */
 void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx);
+void SPI_CloseTransmissiong(SPI_Handle_t *pSPIHandle);
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle);
 
-
-
+/* Application Callbacks */
+void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent);
 
 
 

@@ -1,6 +1,7 @@
 #ifndef STM32F446XX_H_
 #define STM32F446XX_H_
 #include <stdint.h>
+#include <stddef.h>
 
 /*
  * DS = DATASHEET   @ = PAGE NUMBER
@@ -13,6 +14,7 @@
  */
 
 #define __vo                            volatile
+#define __weak                          __attribute__((weak))
 #define ENABLE                          1
 #define DISABLE                         0
 #define SET                             ENABLE
@@ -426,7 +428,6 @@ typedef struct
  * ################################################################################################
  */
 
-
 #define SPI_CR1_BIDIMODE                15                                          /* DS PG 886 */
 #define SPI_CR1_BIDIOE                  14                                          /* DS PG 886 */
 #define SPI_CR1_CRC_EN                  13                                          /* DS PG 886 */
@@ -459,6 +460,19 @@ typedef struct
 #define SPI_SR_CHSIDE                   2                                           /* DS PG 889 */
 #define SPI_SR_TXE                      1                                           /* DS PG 889 */
 #define SPI_SR_RXNE                     0                                           /* DS PG 889 */
+
+
+/* ################################################################################################   
+ *                                                                 MACRO FOR SPI APPLICATION EVENTS
+ * ################################################################################################
+ */
+
+
+#define SPI_EVENT_TX_CMPLT              1
+#define SPI_EVENT_RX_CMPLT              2
+#define SPI_EVENT_OVR_ERR               3
+#define SPI_EVENT_CRC_ERR               4
+
 
 
 /* ################################################################################################   
