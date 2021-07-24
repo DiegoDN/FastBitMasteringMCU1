@@ -487,6 +487,18 @@ typedef struct
 #define IRQ_NO_EXTI4                    10                                      /* DS PG 239-240 */
 #define IRQ_NO_EXTI9_5                  23                                      /* DS PG 239-240 */
 #define IRQ_NO_EXTI15_10                40                                      /* DS PG 239-240 */
+#define IRQ_NO_SPI1                     35                                      /* DS PG 239-240 */
+#define IRQ_NO_SPI2                     36                                      /* DS PG 239-240 */
+#define IRQ_NO_SPI3                     51                                      /* DS PG 239-240 */
+#define IRQ_NO_SPI4                     84                                      /* DS PG 239-240 */
+#define IRQ_NO_I2C1_EV                  31                                      /* DS PG 239-240 */
+#define IRQ_NO_I2C1_ER                  32                                      /* DS PG 239-240 */
+#define IRQ_NO_USART1                   37                                      /* DS PG 239-240 */
+#define IRQ_NO_USART2                   38                                      /* DS PG 239-240 */
+#define IRQ_NO_USART3                   39                                      /* DS PG 239-240 */
+#define IRQ_NO_UART4                    52                                      /* DS PG 239-240 */
+#define IRQ_NO_UART5                    53                                      /* DS PG 239-240 */
+#define IRQ_NO_USART6                   71                                      /* DS PG 239-240 */
 
 #define NVIC_IRQ_PRI_0                  0
 #define NVIC_IRQ_PRI_1                  1

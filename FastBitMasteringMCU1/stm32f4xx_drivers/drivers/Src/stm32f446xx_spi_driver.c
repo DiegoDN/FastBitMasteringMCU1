@@ -348,6 +348,85 @@ void SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi)
 
 
 /* ################################################################################################
+ *                                                                           SPI_IRQInterruptConfig
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_IRQInterruptConfig
+ * FUNCION BRIEF: CONFIGURE THE INTERRUPT ON THE GIVEN SPI.
+ * PARAMETERS:    IRQNUMBER, ENABLE OR DISABLE
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ */
+
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
+{
+
+	if(EnorDi == ENABLE)
+	{
+		if(IRQNumber < 32)
+		{
+			//program ISER0 Register
+			*NVIC_ISER0 |= (1 << IRQNumber);
+		}
+		else if((IRQNumber >= 32) && (IRQNumber < 64))
+		{
+			//program ISER1 Register
+			*NVIC_ISER1 |= (1 << (IRQNumber % 32));
+		}
+		else if((IRQNumber >= 64) && (IRQNumber < 96))
+		{
+			//program ISER2 Register
+			*NVIC_ISER2 |= (1 << (IRQNumber % 64));
+		}		
+	}
+	else
+	{
+		if(IRQNumber < 32)
+		{
+			//program ICER0 Register
+			*NVIC_ICER0 |= (1 << IRQNumber);
+		}
+		else if((IRQNumber >= 32) && (IRQNumber < 64))
+		{
+			//program ICER1 Register
+			*NVIC_ICER1 |= (1 << (IRQNumber % 32));
+		}
+		else if((IRQNumber >= 64) && (IRQNumber < 96))
+		{
+			//program ICER2 Register
+			*NVIC_ICER2 |= (1 << (IRQNumber % 64));
+		}		
+
+	}
+
+}
+
+
+/* ################################################################################################
+ *                                                                            SPI_IRQPriorityConfig
+ * ################################################################################################
+ *	
+ * FUNCTION NAME: SPI_IRQPriorityConfig
+ * FUNCION BRIEF: CONFIGURE THE PRIORITY ON THE GIVE IRQ NUMBER
+ * PARAMETERS:    IRQNUMBER, IRQPRIORITY
+ * PARAMETERS:    
+ * RETURN TYPE:   NONE;
+ */
+
+void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint32_t IRQPriority)
+{
+	/* 1. first lets find out the ipr register */
+	uint8_t iprx = IRQNumber / 4;
+	uint8_t iprx_section  = IRQNumber %4 ;
+
+	uint8_t shift_amount = ( 8 * iprx_section) + ( 8 - NO_PR_BITS_IMPLEMENTED) ;
+
+	*(  NVIC_PR_BASE_ADDR + iprx ) |=  ( IRQPriority << shift_amount );
+
+}
+
+
+/* ################################################################################################
  *                                                                                   SPI_SendDataIT
  * ################################################################################################
  *	
@@ -371,7 +450,7 @@ uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTXBuffer, uint32_t Le
 		/* 2. Mark SPI state as busy so no other code can take control over SPI peripheral */
 		pSPIHandle->TXState = SPI_BUSY_IN_TX;
 
-		/* 3. Enable the TXEIE controle bit to the the Interrupt whenever TXE FLag is set in SR */
+		/* 3. Enable the TXEIE control bit to the the Interrupt whenever TXE FLag is set in SR */
 		pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_TXEIEN);
 	}
 
@@ -403,7 +482,7 @@ uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRXBuffer, uint32_t
 		/* 2. Mark SPI state as busy so no other code can take control over SPI peripheral */
 		pSPIHandle->RXState = SPI_BUSY_IN_TX;
 
-		/* 3. Enable the TXEIE controle bit to the the Interrupt whenever TXE FLag is set in SR */
+		/* 3. Enable the TXEIE control bit to the the Interrupt whenever TXE FLag is set in SR */
 		pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_RXEIEN);
 	}
 
