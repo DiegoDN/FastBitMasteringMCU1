@@ -226,6 +226,23 @@ typedef struct
 } SPI_RegDef_t;
 
 
+
+typedef struct 
+{
+    __vo uint32_t CR1;                             /* CONTROL REG 1 - ADDR OFFSET: 0x00 - DS 780 */
+    __vo uint32_t CR2;                             /* CONTROL REG 2 - ADDR OFFSET: 0x04 - DS 782 */
+    __vo uint32_t OAR1;                           /* OWN ADDR REG 1 - ADDR OFFSET: 0x08 - DS 784 */    
+    __vo uint32_t OAR2;                           /* OWN ADDR REG 2 - ADDR OFFSET: 0x0C - DS 784 */    
+    __vo uint32_t DR;                                  /* DATA REG - ADDR OFFSET:  0x10 - DS 785 */
+    __vo uint32_t SR1;                             /* STATUS REG 1 - ADDR OFFSET:  0x14 - DS 785 */    
+    __vo uint32_t SR2;                             /* STATUS REG 2 - ADDR OFFSET:  0x18 - DS 789 */        
+    __vo uint32_t CCR;                        /* CLOCK CONTROL REG - ADDR OFFSET:  0x1C - DS 790 */
+    __vo uint32_t TRISE;                              /* TRISE REG - ADDR OFFSET:  0x20 - DS 791 */
+    __vo uint32_t FLTR;                                /* FLTR REG - ADDR OFFSET:  0x24 - DS 792 */
+
+} I2C_RegDef_t;
+
+
 /* ################################################################################################
  *                                                                           PERIPHERAL DEFINITIONS 
  * ################################################################################################
@@ -251,10 +268,14 @@ typedef struct
 #define SPI3                            ((SPI_RegDef_t *) SPI3_BASEADDR)
 #define SPI4                            ((SPI_RegDef_t *) SPI4_BASEADDR)
 
+#define I2C1                            ((I2C_RegDef_t *) I2C1_BASEADDR)
+#define I2C2                            ((I2C_RegDef_t *) I2C2_BASEADDR)
+#define I2C3                            ((I2C_RegDef_t *) I2C3_BASEADDR)
+
 
 /* ################################################################################################   
  *                                                        CLOCK ENABLE MACROS FOR GPIOX PERIPHERALS
- * ################################################################################################
+  * ################################################################################################
  */
 
 #define GPIOA_PCLK_EN()                 ((RCC->AHB1_ENR) |= (1 << 0))                  /* DS 144 */
@@ -474,8 +495,63 @@ typedef struct
 #define SPI_EVENT_CRC_ERR               4
 
 
+/* ################################################################################################   
+ *                                                                       MACRO FOR I2C BITS CONFIGS
+ * ################################################################################################
+ */
+
+#define I2C_CR1_PE                      0                                           /* DS PG 780 */
+#define I2C_CR1_NOSTRETCH               7                                           /* DS PG 780 */
+#define I2C_CR1_START                   8                                           /* DS PG 780 */
+#define I2C_CR1_STOP                    9                                           /* DS PG 780 */
+#define I2C_CR1_ACK                     10                                          /* DS PG 780 */
+#define I2C_CR1_SWRST                   15                                          /* DS PG 780 */
+
+#define I2C_CR2_FREQ                    0                                           /* DS PG 782 */
+#define I2C_CR2_ITERREN                 8                                           /* DS PG 782 */
+#define I2C_CR2_ITEVTEN                 9                                           /* DS PG 782 */
+#define I2C_CR2_ITBUFEN                 10                                          /* DS PG 782 */
+
+#define I2C_OAR1_ADD0                   0                                           /* DS PG 784 */
+#define I2C_OAR1_ADD71                  1                                           /* DS PG 784 */
+#define I2C_OAR1_ADD98                  8                                           /* DS PG 784 */
+#define I2C_OAR1_ADDMODE                15                                          /* DS PG 784 */
+
+#define I2C_SR1_SB                      0                                           /* DS PG 786 */
+#define I2C_SR1_ADDR                    1                                           /* DS PG 786 */
+#define I2C_SR1_BTF                     2                                           /* DS PG 786 */
+#define I2C_SR1_ADD10                   3                                           /* DS PG 786 */
+#define I2C_SR1_STOPF                   4                                           /* DS PG 786 */
+#define I2C_SR1_RXNE                    6                                           /* DS PG 786 */
+#define I2C_SR1_TXE                     7                                           /* DS PG 786 */
+#define I2C_SR1_BERR                    8                                           /* DS PG 786 */
+#define I2C_SR1_ARLO                    9                                           /* DS PG 786 */
+#define I2C_SR1_AF                      10                                          /* DS PG 786 */
+#define I2C_SR1_OVR                     11                                          /* DS PG 786 */
+#define I2C_SR1_TIMEOUT                 14                                          /* DS PG 786 */
+
+#define I2C_SR2_MSL                     0                                           /* DS PG 789 */
+#define I2C_SR2_BUSY                    1                                           /* DS PG 789 */
+#define I2C_SR2_TRA                     2                                           /* DS PG 789 */
+#define I2C_SR2_GENCALL                 4                                           /* DS PG 789 */
+#define I2C_SR2_DUALF                   7                                           /* DS PG 789 */
+
+#define I2C_CCR_CCR                     0                                           /* DS PG 790 */
+#define I2C_CCR_DUTY                    14                                          /* DS PG 790 */
+#define I2C_CCR_FS                      15                                          /* DS PG 790 */
+
 
 /* ################################################################################################   
+ *                                                                RESET MACROS FOR I2CX PERIPHERALS
+ * ################################################################################################
+ */
+
+#define I2C1_REG_RESET()  do{((RCC->APB1_RSTR) |= (1 << 21)); ((RCC->APB1_RSTR) &= ~(1 << 21));} while(0)  /* DS 139 */
+#define I2C2_REG_RESET()  do{((RCC->APB1_RSTR) |= (1 << 22)); ((RCC->APB1_RSTR) &= ~(1 << 22));} while(0)  /* DS 139 */
+#define I2C3_REG_RESET()  do{((RCC->APB1_RSTR) |= (1 << 23)); ((RCC->APB1_RSTR) &= ~(1 << 23));} while(0)  /* DS 139 */
+
+
+/* ################################################################################################
  *                                                                     INTERRUPT REQUEST IRQ MACROS
  * ################################################################################################
  */
@@ -543,6 +619,7 @@ typedef struct
 
 #include "stm32f446xx_gpio_driver.h"
 #include "stm32f446xx_spi_driver.h"
+#include "stm32f446xx_i2c_driver.h"
 
 #endif /* STM32F446XX_H_ */
 

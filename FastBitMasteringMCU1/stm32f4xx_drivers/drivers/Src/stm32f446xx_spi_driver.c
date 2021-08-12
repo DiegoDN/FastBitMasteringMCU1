@@ -471,7 +471,7 @@ uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTXBuffer, uint32_t Le
 
 uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRXBuffer, uint32_t Len)
 {
-	uint8_t state = pSPIHandle->RXState;
+	uint8_t state = pSPIHandle-> RXState;
 
 	if (state != SPI_BUSY_IN_RX)
 	{
